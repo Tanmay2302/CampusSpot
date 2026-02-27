@@ -20,14 +20,33 @@ dotenv.config();
 
 const serverApp = express();
 const mainServer = createServer(serverApp);
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.FRONTEND_URL,
+].filter(Boolean);
+
 const socketHub = new SocketServer(mainServer, {
   cors: {
-    origin: "*",
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
-serverApp.use(cors());
+serverApp.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed"));
+      }
+    },
+    credentials: true,
+  }),
+);
+
 serverApp.use(express.json());
 
 initializeSocket(socketHub);
@@ -49,5 +68,5 @@ cron.schedule(SCHEDULER_CONFIG.CLEANUP_CRON_INTERVAL, runMaintenanceCycle);
 const activePort = process.env.PORT || 5000;
 
 mainServer.listen(activePort, () => {
-  console.log(`CampusSpot Kernel active on port ${activePort}`);
+  console.log(`CampusSpot is live on port ${activePort}`);
 });
