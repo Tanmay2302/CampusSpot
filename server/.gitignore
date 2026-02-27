@@ -43,7 +43,7 @@ temp/
 # Database files (if using local sqlite or dumps)
 *.sqlite
 *.sqlite3
-*.db
+
 *.sql
 
 # Node REPL history
