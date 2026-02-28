@@ -376,7 +376,7 @@ Try booking a session shorter than 30 minutes or longer than 120 minutes. Both s
 The advance booking window differs by role:
 
 - **Individual users** can book up to **7 days ahead** for time-based slots
-- **Club users** can book full-day slots up to **30 days ahead**, but with a condition — the full-day booking must be made **before midnight (12:00 AM) of the target date**. Trying to book a full-day slot for today after midnight should be rejected.
+- **Club users** can book full-day slots but with a condition — the full-day booking must be made **before midnight (12:00 AM) of the target date**. Trying to book a full-day slot for today after midnight should be rejected.
 
 Try both from the respective user types and verify the date picker enforces the correct range.
 
