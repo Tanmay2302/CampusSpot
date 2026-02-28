@@ -124,6 +124,16 @@ export function ScheduleModal({ facility, onClose }) {
     return map;
   }, [activeUnit, selectedDate, timeSlots, userName]);
 
+  const getResourceLabel = () => {
+    const name = facility.display_name?.toLowerCase() || "";
+
+    if (name.includes("court")) return "court";
+    if (name.includes("ground")) return "ground";
+    if (name.includes("auditorium")) return "auditorium";
+
+    return "resource";
+  };
+
   return (
     <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl h-[85vh] flex flex-col overflow-hidden border border-slate-100">
@@ -217,7 +227,7 @@ export function ScheduleModal({ facility, onClose }) {
                   </h3>
                   <p className="text-slate-500 text-sm font-medium max-w-md">
                     {fullDayBooking.user_type === "club"
-                      ? `${fullDayBooking.club_name} took over the court for the day.`
+                      ? `${fullDayBooking.club_name} took over this ${getResourceLabel()} for the day.`
                       : "This facility is reserved for the full day."}
                   </p>
                 </>
