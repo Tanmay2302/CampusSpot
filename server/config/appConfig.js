@@ -8,6 +8,9 @@ export const BOOKING_POLICY = {
   // Maximum advance booking window
   MAX_BOOKING_HORIZON_DAYS: 7,
 
+  // Maximum advance booking window for clubs
+  CLUB_BOOKING_HORIZON_DAYS: 30,
+
   // Minimum booking duration
   MIN_SESSION_MINUTES: 30,
 };

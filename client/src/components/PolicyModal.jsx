@@ -19,7 +19,8 @@ export function PolicyModal({ facility, onClose, onSuccess }) {
 
   const getMaxAllowedDate = () => {
     const date = new Date();
-    date.setDate(date.getDate() + 7);
+    const horizonDays = userType === "club" ? 30 : 7;
+    date.setDate(date.getDate() + horizonDays);
     date.setHours(23, 59, 0, 0);
     const tzOffset = date.getTimezoneOffset() * 60000;
     return new Date(date.getTime() - tzOffset).toISOString().slice(0, 16);

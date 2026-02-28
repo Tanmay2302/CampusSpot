@@ -42,14 +42,20 @@ export const policyService = {
     }
 
     // Enforce maximum advance booking window
+    const horizonDays =
+      userType === "club"
+        ? BOOKING_POLICY.CLUB_BOOKING_HORIZON_DAYS
+        : BOOKING_POLICY.MAX_BOOKING_HORIZON_DAYS;
+
     const horizonLimit = new Date();
-    horizonLimit.setDate(
-      now.getDate() + (BOOKING_POLICY.MAX_BOOKING_HORIZON_DAYS || 7),
-    );
+    horizonLimit.setDate(now.getDate() + (horizonDays || 7));
+
     if (start > horizonLimit) {
       throw {
         status: 403,
-        message: `Advance booking limit exceeded. Max lead time is ${BOOKING_POLICY.MAX_BOOKING_HORIZON_DAYS} days.`,
+        message: `Advance booking limit exceeded. Max lead time for ${
+          userType === "club" ? "clubs" : "individuals"
+        } is ${horizonDays} days.`,
       };
     }
 
