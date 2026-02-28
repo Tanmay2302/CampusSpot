@@ -155,7 +155,7 @@ export const bookingService = {
 
             throw {
               status: 409,
-              message: `This resource is already reserved for the entire day (${formattedDate}) by ${conflict.club_name}.`,
+              message: `This resource is already reserved for the entire day ${formattedDate} by ${conflict.club_name}.`,
             };
           }
 

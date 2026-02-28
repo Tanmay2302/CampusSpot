@@ -67,13 +67,16 @@ export const policyService = {
 
     // Ensure booking falls within facility operating hours
     if (facility.open_time && facility.close_time) {
-      const openMins = timeStringToMinutes(facility.open_time);
-      const closeMins = timeStringToMinutes(facility.close_time);
+      const [openH, openM] = facility.open_time.split(":").map(Number);
+      const [closeH, closeM] = facility.close_time.split(":").map(Number);
 
-      const startMins = start.getHours() * 60 + start.getMinutes();
-      const endMins = end.getHours() * 60 + end.getMinutes();
+      const openDate = new Date(start);
+      openDate.setHours(openH, openM, 0, 0);
 
-      if (!isFullDay && (startMins < openMins || endMins > closeMins)) {
+      const closeDate = new Date(start);
+      closeDate.setHours(closeH, closeM, 0, 0);
+
+      if (!isFullDay && (start < openDate || end > closeDate)) {
         throw {
           status: 400,
           message: `The facility is closed at your selected time. Operating hours: ${formatTime(
