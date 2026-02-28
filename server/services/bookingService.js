@@ -145,11 +145,17 @@ export const bookingService = {
           const conflict = existingDayBookings.rows[0];
 
           if (conflict.booking_type === "full_day") {
+            const formattedDate = new Date(
+              conflict.starts_at,
+            ).toLocaleDateString("en-IN", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            });
+
             throw {
               status: 409,
-              message: `This resource is already reserved for the entire day (${new Date(
-                conflict.starts_at,
-              ).toLocaleDateString("en-IN")}) by ${conflict.club_name}.`,
+              message: `This resource is already reserved for the entire day (${formattedDate}) by ${conflict.club_name}.`,
             };
           }
 
