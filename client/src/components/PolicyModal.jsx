@@ -104,21 +104,17 @@ export function PolicyModal({ facility, onClose, onSuccess }) {
         return;
       }
     }
-    const timeToMinutes = (d) => d.getHours() * 60 + d.getMinutes();
-    const facilityOpenMins = facility.open_time
-      ? parseInt(facility.open_time.split(":")[0]) * 60 +
-        parseInt(facility.open_time.split(":")[1])
-      : 0;
-    const facilityCloseMins = facility.close_time
-      ? parseInt(facility.close_time.split(":")[0]) * 60 +
-        parseInt(facility.close_time.split(":")[1])
-      : 1440;
-
     if (!isWholeDay) {
-      const startMins = timeToMinutes(start);
-      const endMins = timeToMinutes(end);
+      const [openH, openM] = facility.open_time.split(":").map(Number);
+      const [closeH, closeM] = facility.close_time.split(":").map(Number);
 
-      if (startMins < facilityOpenMins || endMins > facilityCloseMins) {
+      const openDate = new Date(start);
+      openDate.setHours(openH, openM, 0, 0);
+
+      const closeDate = new Date(start);
+      closeDate.setHours(closeH, closeM, 0, 0);
+
+      if (start < openDate || end > closeDate) {
         setRequestError({
           message: `This facility is only available between ${formatTo12Hour(
             facility.open_time,
