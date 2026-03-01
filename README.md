@@ -53,7 +53,7 @@ Every booking is a time-bound ownership claim. The database — not the frontend
 ## Architecture
 
 ```
-Controller → Service → Repository → Database
+Controller → Service → Database
 ```
 
 - **Frontend:** React + Vite + Tailwind CSS
