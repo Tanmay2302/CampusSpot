@@ -303,9 +303,34 @@ These transitions free capacity immediately and are reflected in real time acros
 
 ## Local Setup
 
-**1. Clone and install dependencies** for both `backend/` and `frontend/`.
+**1. Clone the repository**
 
-**2. Backend `.env`**
+```bash
+git clone https://github.com/Tanmay2302/CampusSpot.git
+cd CampusSpot
+```
+
+**2. Install dependencies**
+
+Backend:
+
+```bash
+cd backend
+npm install
+```
+
+Frontend:
+
+```bash
+cd frontend
+npm install
+```
+
+`npm install` reads from each folder's `package.json` and pulls in all required dependencies automatically.
+
+**3. Configure environment variables**
+
+Create a `.env` file inside the `backend/` folder:
 
 ```env
 PORT=5000
@@ -314,17 +339,43 @@ DATABASE_URL=your_postgres_connection_string
 FRONTEND_URL=http://localhost:3000
 ```
 
-**3. Frontend `.env`**
+Create a `.env` file inside the `frontend/` folder:
 
 ```env
 VITE_API_URL=http://localhost:5000/api
 VITE_SOCKET_URL=http://localhost:5000
 ```
 
-**4. Seed the database**
+**4. Run the development servers**
+
+Backend (entry point is `app.js`, nodemon watches for file changes):
+
+```bash
+cd backend
+npm run dev
+```
+
+Frontend (Vite dev server with hot reload):
+
+```bash
+cd frontend
+npm run dev
+```
+
+Run these in two separate terminal windows. The backend starts on `http://localhost:5000` and the frontend on `http://localhost:3000`.
+
+**5. Seed the database**
+
+Once the backend is running, hit the seed endpoint to populate demo facilities:
 
 ```bash
 POST http://localhost:5000/api/system/seed
+```
+
+Or via curl:
+
+```bash
+curl -X POST http://localhost:5000/api/system/seed
 ```
 
 **Production seed:**
@@ -390,13 +441,11 @@ Basketball Courts, Cricket Ground, and Auditorium all have a **Schedule** button
 
 **8. Auditorium — Club-Only Access**
 
-The Auditorium is restricted to club bookings only.
-If you are logged in as an individual user, the Auditorium will not appear in the list of available facilities. Only users with a club role can see and book it.
-This is a role-based access rule enforced at the backend — it is not merely hidden in the UI.
+The Auditorium is restricted to club bookings only. If you're logged in as an individual, the Auditorium card should either not show a booking option or explicitly block the action. Only club users will see it as bookable. This is a role-based access rule enforced at the backend — not just hidden in the UI.
 
 ---
 
-**9. No Early Check-In (My Booking)**
+**9. No Early Check-In**
 
 Try checking in to a booking before its start time. The check-in button should be inactive or the request should be rejected. Check-in only becomes available at the exact scheduled start time.
 
@@ -408,21 +457,13 @@ Make a booking and don't check in. After 15 minutes past the start time, the cro
 
 ---
 
-**11. Early Check-Out (My Booking)**
+**11. Early Check-Out**
 
 Check in to an active session and then check out before the scheduled end time. The unit should become available immediately — capacity updates in real time and the slot opens up for new bookings. You don't have to wait for the session's `ends_at` to pass.
 
 ---
 
-**12. Cancellation (My Booking)**
-
-If you have a scheduled booking that has not yet started, you can cancel it from My Bookings. Once cancelled, the booking status changes to released, and the unit becomes available immediately.
-Capacity updates in real time, and the time slot opens up for other users to reserve.
-You do not need to wait for the starts_at time — cancellation frees the resource instantly.
-
----
-
-**13. Idempotency — Double Submit**
+**12. Idempotency — Double Submit**
 
 On the booking form, click Reserve twice rapidly (or disable the button logic temporarily and submit twice). Only one active booking should be created. The `idempotency_key` unique index ensures the second insert fails silently at the database level — not caught by application logic, prevented by the schema itself.
 
