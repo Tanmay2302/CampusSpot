@@ -445,7 +445,7 @@ The Auditorium is restricted to club bookings only. If you're logged in as an in
 
 ---
 
-**9. No Early Check-In**
+**9. No Early Check-In (My Booking)**
 
 Try checking in to a booking before its start time. The check-in button should be inactive or the request should be rejected. Check-in only becomes available at the exact scheduled start time.
 
@@ -457,13 +457,21 @@ Make a booking and don't check in. After 15 minutes past the start time, the cro
 
 ---
 
-**11. Early Check-Out**
+**11. Early Check-Out (My Booking)**
 
 Check in to an active session and then check out before the scheduled end time. The unit should become available immediately — capacity updates in real time and the slot opens up for new bookings. You don't have to wait for the session's `ends_at` to pass.
 
 ---
 
-**12. Idempotency — Double Submit**
+---
+
+**12. Cancellation (My Booking)**
+
+If you have a scheduled booking that has not yet started, you can cancel it from My Bookings. Once cancelled, the booking status changes to released, and the unit becomes available immediately. Capacity updates in real time, and the time slot opens up for other users to reserve. You do not need to wait for the starts_at time — cancellation frees the resource instantly.
+
+---
+
+**13. Idempotency — Double Submit**
 
 On the booking form, click Reserve twice rapidly (or disable the button logic temporarily and submit twice). Only one active booking should be created. The `idempotency_key` unique index ensures the second insert fails silently at the database level — not caught by application logic, prevented by the schema itself.
 
