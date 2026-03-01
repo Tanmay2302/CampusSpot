@@ -3,7 +3,7 @@ import apiClient from "../api/apiClient.js";
 import { useUser } from "../hooks/useUser.js";
 
 export function ScheduleModal({ facility, onClose }) {
-  const { userName } = useUser();
+  const { userName, userType } = useUser();
 
   const todayStr = useMemo(() => new Date().toISOString().split("T")[0], []);
 
@@ -14,9 +14,10 @@ export function ScheduleModal({ facility, onClose }) {
 
   const maxDate = useMemo(() => {
     const date = new Date();
-    date.setDate(date.getDate() + 6);
+    const horizon = userType === "club" ? 29 : 6;
+    date.setDate(date.getDate() + horizon);
     return date.toISOString().split("T")[0];
-  }, []);
+  }, [userType]);
 
   // Generate 30-min slots within facility hours
   const timeSlots = useMemo(() => {

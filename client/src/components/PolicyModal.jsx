@@ -244,9 +244,7 @@ export function PolicyModal({ facility, onClose, onSuccess }) {
                   }
                   max={
                     userType === "club" && isWholeDay
-                      ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-                          .toISOString()
-                          .split("T")[0]
+                      ? getMaxAllowedDate().split("T")[0]
                       : getMaxAllowedDate()
                   }
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-semibold"

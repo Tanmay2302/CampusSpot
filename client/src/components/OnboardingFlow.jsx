@@ -63,7 +63,8 @@ export function OnboardingFlow() {
                   College Club
                 </div>
                 <div className="text-sm text-slate-500">
-                  Access whole-day bookings for auditorium or large halls.
+                  Access whole-day bookings and reserve resources up to 30 days
+                  in advance.
                 </div>
               </button>
             </div>
